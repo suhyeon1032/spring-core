@@ -1,8 +1,6 @@
 package hello.core.beanfind;
 
-import hello.core.AppConfig;
-import hello.core.discount.DiscountPolicy;
-import hello.core.member.MemberReopsitory;
+import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,20 +23,20 @@ public class ApplicationContextSameBeanFindTest {
     void findBeanByTypeDuplicate() {
 //        MemberReopsitory bean = ac.getBean(MemberReopsitory.class);
         assertThrows(NoUniqueBeanDefinitionException.class,
-                () -> ac.getBean(MemberReopsitory.class));
+                () -> ac.getBean(MemberRepository.class));
     }
 
     @Test
     @DisplayName("타입으로 조회시 같은 타입이 둘 이상 있으면, 빈 이름을 지정하면 된다")
     void findBeanByName() {
-        MemberReopsitory memberRepository = ac.getBean("memberRepository1", MemberReopsitory.class);
-        assertThat(memberRepository).isInstanceOf(MemberReopsitory.class);
+        MemberRepository memberRepository = ac.getBean("memberRepository1", MemberRepository.class);
+        assertThat(memberRepository).isInstanceOf(MemberRepository.class);
     }
 
     @Test
     @DisplayName("특정 타입을 모두 조회하기")
     void findAllBeanByType() {
-        Map<String, MemberReopsitory> beansOfType = ac.getBeansOfType(MemberReopsitory.class);
+        Map<String, MemberRepository> beansOfType = ac.getBeansOfType(MemberRepository.class);
         for (String key : beansOfType.keySet()) {
             System.out.println("key = " + key + " value = " + beansOfType.get(key));
         }
@@ -52,13 +50,13 @@ public class ApplicationContextSameBeanFindTest {
         // static = class 안에 class를 쓰는 것은 이 안에서만 사용하겠다는 의미
 
         @Bean
-        public MemberReopsitory memberRepository1() {
+        public MemberRepository memberRepository1() {
             return new MemoryMemberRepository();
             // class타입이 같은 Bean이 있을 수 있다(Bean의 이름이 달라야한다)
         }
 
         @Bean
-        public MemberReopsitory memberRepository2() {
+        public MemberRepository memberRepository2() {
             return new MemoryMemberRepository();
         }
 
