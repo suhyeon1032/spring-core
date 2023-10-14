@@ -3,7 +3,10 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderServiceImpl implements OrderService { // implements OrderService => 의존하고 있다.
 
     private final MemberRepository memberRepository; //memberRepository와 discountPolicy를 참조(의존)하고있다.
@@ -12,8 +15,9 @@ public class OrderServiceImpl implements OrderService { // implements OrderServi
     private final DiscountPolicy discountPolicy; // 2. 구체에 의존하지 않고 추상화인 인터페이스에만 의존한다. // 하지만 NullPointerException이 터진다.
 
     // final이 되어 있으면 기본적으로 생성자를 할당 해야한다.
-    public OrderServiceImpl(MemberRepository memberReopsitory, DiscountPolicy discountPolicy) {
-        this.memberRepository = memberReopsitory;
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
 
