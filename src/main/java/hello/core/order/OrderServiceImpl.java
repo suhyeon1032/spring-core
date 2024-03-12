@@ -1,12 +1,13 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+//@RequiredArgsConstructor // 현재 내 객체의 final이 붙은[MemberRepository, DiscountPolicy]를 파라미터로 받는 생성자를 만들어준다.
 public class OrderServiceImpl implements OrderService { // implements OrderService => 의존하고 있다.
 
     private final MemberRepository memberRepository; //memberRepository와 discountPolicy를 참조(의존)하고있다.
@@ -34,8 +35,8 @@ public class OrderServiceImpl implements OrderService { // implements OrderServi
 //        this.discountPolicy = discountPolicy;
 //    }
 
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+//@RequiredArgsConstructor를 주입하면아래 코드 생략
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
 //        System.out.println("1. OrderServiceImpl.OrderServiceImpl");
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
